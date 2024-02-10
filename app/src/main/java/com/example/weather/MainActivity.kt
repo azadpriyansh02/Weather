@@ -9,6 +9,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -65,8 +66,9 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this,"Get Success",Toast.LENGTH_SHORT).show()
                         Log.e(TAG, "getCurrentLocation: "+location.longitude+location.latitude)
                         val geocoder = Geocoder(this,Locale.getDefault())
-                        val addresses: List<Address>? = geocoder.getFromLocation(location.longitude,location.latitude,1,)
-                        val cityName: String = addresses!![0].getAddressLine(0)
+                        if(Build.VERSION.SDK_INT>=33){
+                            geocoder.getFromLocation(location.latitude,location.longitude,1)
+                        }
                     }
                 }
             }
